@@ -32,5 +32,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports {led[6]}]
 
 set_property PACKAGE_PIN U16 [get_ports {led[7]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {led[7]}]
-set_property PACKAGE_PIN R13 [get_ports {swt[7]}]
-set_property IOSTANDARD LVCMOS33 [get_ports {swt[7]}]
+set_property PACKAGE_PIN R13 [get_ports {swt[7]}]set_property IOSTANDARD LVCMOS33 [get_ports {swt[7]}]
+
+set_property IOSTANDARD LVCMOS33 [get_ports clk]
+set_property PACKAGE_PIN E3 [get_ports clk]

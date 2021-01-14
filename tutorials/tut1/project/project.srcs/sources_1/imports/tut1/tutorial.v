@@ -5,9 +5,13 @@
 
 
 module tutorial(
-    input [7:0] swt,
+     input clk,
      output [7:0] led
     );
+    
+    wire [7:0] swt;
+    
+    vio_0 vio(.clk(clk), .probe_in0(led), .probe_out0(swt));
     
     assign led[0] = ~swt[0];
     assign led[1] = swt[1] & ~swt[2];
