@@ -1,15 +1,23 @@
 `timescale 1 ns / 1 ps
 module top (
-    input       clk,
-    input       reset
+    input clk
+);
+
+logic[5:0] inputs;
+logic[3:0] output_largest;
+
+vio_0 vio (
+    .clk(clk), 
+    .probe_in0(output_largest), 
+    .probe_out0(inputs)
 );
 
 max m (
     .clk(clk),
-    .reset(reset),
-    .in_data(),
-    .in_valid(),
-    .out_largest()
+    .reset(inputs[0]),
+    .in_valid(inputs[1]),
+    .in_data({inputs[5], inputs[4], inputs[3], inputs[2]}),
+    .out_largest(output_largest)
 );
 
 endmodule
