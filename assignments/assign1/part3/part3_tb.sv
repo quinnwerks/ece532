@@ -58,31 +58,40 @@ localparam MEM_WRITE_ADDR = 'h00000004;
     agent = new("master vip agent",DUT.design_1_i.axi_vip_1.inst.IF);
     agent.start_master();               // agent start to run
 
-
-    //Put test vectors here
-
-    //Turn on LED 0,1,3,5,7
+    // Write value of n
     writeRegister(M532_BASE_ADDR + N_VALUE_OFFSET, 'h00000002);
-    //readRegister(M532_BASE_ADDR + N_VALUE_OFFSET, Rdatabeat);
-
-    //Set pushbutton GPIOs to input
+    // Write value_in
     writeRegister(M532_BASE_ADDR + VALUE_IN_OFFSET, 'hFFFFFFFF);
-    //readRegister(M532_BASE_ADDR + VALUE_IN_OFFSET, Rdatabeat);
-    
+    // Write the output address
     writeRegister(M532_BASE_ADDR + ADDR_OUT_OFFSET, MEM_WRITE_ADDR);
-    //readRegister(M532_BASE_ADDR + ADDR_OUT_OFFSET, Rdatabeat);
-
+    // Write a value to register to start txn. Actual value does not matter.
     writeRegister(M532_BASE_ADDR + BEGIN_TXN_OFFSET, 'hFFFFFFFF);
-   
+
 
     //Wait for all writes to complete
     agent.wait_drivers_idle();
-    //Read push button values
-    #500;
-    readRegister(MEM_WRITE_ADDR, Rdatabeat);
-    //Print read data to tcl console (similar to printf)
+    
+    // Read n
+    readRegister(M532_BASE_ADDR + N_VALUE_OFFSET, Rdatabeat);
     $write("BRAM Data value: 0x%08x\n", Rdatabeat[0]);
- end
+    assert(Rdatabeat[0] == 'h00000002) else $stop("Unexpected read value");
+    
+    // Read value_in
+    readRegister(M532_BASE_ADDR + VALUE_IN_OFFSET, Rdatabeat);
+    $write("BRAM Data value: 0x%08x\n", Rdatabeat[0]);
+    assert(Rdatabeat[0] == 'hffffffff) else $stop("Unexpected read value");
+
+    // Read mem_out
+    readRegister(M532_BASE_ADDR + ADDR_OUT_OFFSET, Rdatabeat);
+    $write("BRAM Data value: 0x%08x\n", Rdatabeat[0]);
+    assert(Rdatabeat[0] == 'h00000004) else $stop("Unexpected read value");
+    
+    // Read to make sure value is what is expected.
+    readRegister(MEM_WRITE_ADDR, Rdatabeat);
+    
+    $write("BRAM Data value: 0x%08x\n", Rdatabeat[0]);
+    assert(Rdatabeat[0] == 'h3fffffff) else $stop("Unexpected read value");
+end
 
 
 task writeRegister( input xil_axi_ulong           addr =0,

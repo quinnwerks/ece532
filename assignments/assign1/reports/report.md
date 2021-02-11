@@ -3,7 +3,7 @@
 ### Description of Test Inputs
 I used the value\_in `0xffffffff` because it made it very easy
 to see which bits were being masked out. I chose the value of n
-to be every possible value i.e. range [0...32). This combination
+to be every possible value i.e. range [0...31]. This combination
 of inputs allowed me to quickly verify that my module was working
 as expected.
 ### Summary of Outputs
@@ -12,7 +12,7 @@ as expected.
 - `$display`: Displays a string on the terminal / output screen. It can be used
    to print various values from your testbench.
 - `$monitor`: Same as `$display` but used SystemVerilogs async message queue.
-   This allows paralell simulation messages to be printed in FIFO order.
+   Prints valeus at the end of the current timestep.
 
 ### Discussion of Simulation Methods
 Each simulation methodology has it's pros and cons
@@ -67,9 +67,8 @@ The testbench does the following:
 3. Write to the register for addr\_out.
 4. Write to the 4th register to start an AXI-lite master write.
 5. Wait for all transactions to complete.
-6. Read from BRAM to confirm that the correct value was written at the correct location.
-
-The testbench does not
+6. Read from BRAM to confirm that registers and BRAM was written to correctly. This
+   also makes sure the registers from steps 1-3 are readable.
 
 ### Description of Input Selection
 I chose those inputs for my testbench because it made the testbench easy to verify.
@@ -80,7 +79,13 @@ in my testbench for part 1.
 The simulation uses the `$write` function to output the value written to BRAM
 by the `mask532_axi` module. The output of my simulation looks roughly like this:
 ```
-Value written to BRAM: 0x3fffffff
+Value written to BRAM: 0x00000002 // n
+Value written to BRAM: 0xffffffff // value_in
+Value written to BRAM: 0x00000004 // mem_out
+Value written to BRAM: 0x3fffffff // value_out in BRAM
 ```
-This is the value I expected because `value_in` was set to 0xffffffff and `n` was set to 3.
-i.e. `value_out` should equal 0x3fffffff & 0xffffffff = 0x3fffffff.
+If unexpected values pop up the simulation stops immediately at the location where
+the bad value is seen. I do this via:
+```
+assert(...) else $stop("Simulation failed.");
+```
