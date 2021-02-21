@@ -1,0 +1,11 @@
+The directories part1, part2 and part3 contain skeleton code and a vivado script to help you get started in the assignment.
+
+When beginning work on one part of the assignment:
+
+Open Vivado and in the TCL Console:
+1) change directory (cd) into one of the directories
+2) run: source create_design.tcl
+
+This will create a new project subdirectory, load in the verilog file and set up constraints. From this starting project you can modify the code, add test files and run your design through implementation.
+
+The projects are constrained to implement the design "out of context" which means no I/O buffers will be inserted. This makes the design more invariant to pin locations and simplifies timing analysis.
