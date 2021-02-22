@@ -6,7 +6,7 @@ module cube532
 );
 
 wire [31:0] rom_out;
-    
+
 rom rom_inst (
     .clk(clk),
     .raddr(in),
@@ -31,13 +31,13 @@ module cube532_golden (
     assign out = reg_out_2;
 endmodule
 
-(* rom_style = "block" *)
 module rom (
     input clk,
     input [7:0]     raddr,
     input [31:0]    data
 );
-reg [31:0] rom [255:0];
+
+(* rom_style = "block" *) reg [31:0] rom [255:0];
 reg [31:0] reg_data;
 reg [31:0] reg_data_2;
 
