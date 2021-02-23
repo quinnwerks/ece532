@@ -25,18 +25,19 @@ much more slowly than BRAM/DRAM.
 ### Utilization Table and Fmax
 |    |           | Slice LUTs | Slice Registers | Block RAMs | DSPs   | Fmax   |
 |----|-----------|------------|-----------------|------------|--------|--------|
-| 16 | With DSPs | 0          | 0               | 0          | 1      | 15.770 |
-|    | No DSPs   | 328        | 48              | 0          | 0      |  9.154 |
-| 32 | With DSPs | 48         | 0               | 0          | 5      |  7.984 |
-|    | No DSPs   | 1139       | 96              | 0          | 0      |  8.344 |
+| 16 | With DSPs | 0          | 0               | 0          | 1      | 157.70 |
+|    | No DSPs   | 328        | 48              | 0          | 0      |  91.54 |
+| 32 | With DSPs | 48         | 0               | 0          | 5      |  79.84 |
+|    | No DSPs   | 1139       | 96              | 0          | 0      |  83.44 |
 
 #### FMax Calculations
 
 ```
-16, No DSPs: Worst delay:   10.924 ns => Fmax = 1 / (10.924e-8) =  9.154 MHz
-16, With DSPs: Worst delay:  6.341 ns => Fmax = 1 / ( 6.341e-8) = 15.770 MHz
-32, No DSPs: Worst delay:   11.984 ns => Fmax = 1 / (11.984e-8) =  8.344 MHz
-32, With DSPs: Worst delay: 12.524 ns => Fmax = 1 / (12.524e-8) =  7.984 MHz
+Calculated using the worst unconstrained path delay of each circuit.
+16, No DSPs: Worst delay:   10.924 ns => Fmax = 1 / (10.924e-9) =  91.54 MHz
+16, With DSPs: Worst delay:  6.341 ns => Fmax = 1 / ( 6.341e-9) = 157.70 MHz
+32, No DSPs: Worst delay:   11.984 ns => Fmax = 1 / (11.984e-9) =  83.44 MHz
+32, With DSPs: Worst delay: 12.524 ns => Fmax = 1 / (12.524e-9) =  79.84 MHz
 ```
 ### Implementation Discussion
 I inferered a DSP using the Xillinx guides as a reference. When the width was set
